@@ -7,16 +7,7 @@ const Header = (params) => {
 }
 
 const Part = (params) => {
-  return (
-    <div>
-      <p>
-        {params.name} {params.exercises}
-      </p>
-    </div>
-  )
-}
-
-const PartTest = (params) => {
+  console.log('The object of array passed to part component from Content')
   console.log(params)
   return (
     <div>
@@ -27,28 +18,24 @@ const PartTest = (params) => {
   )
 }
 
-const Content = (params) => {
+const Content = ({parts}) => {
+  console.log('The entire array paassed to Content componenet from App')
+  console.log(parts)
   return (
     <div>
-      <Part name={params.name1} exercises={params.exercises1}/>
-      <Part name={params.name2} exercises={params.exercises2}/>
-      <Part name={params.name3} exercises={params.exercises3}/>
+      <Part {...parts[0]}/>
+      <Part {...parts[1]}/>
+      <Part {...parts[2]}/>
     </div>
   )
 }
 
-const ContentTest = (params) => {
+const Total = ({parts}) => {
+  console.log('inside Total Function')
+  console.log(parts[0].exercises+parts[1].exercises+parts[2].exercises)
   return (
     <div>
-      <PartTest {...params}/>
-    </div>
-  )
-}
-
-const Total = (params) => {
-  return (
-    <div>
-      <p>Number of exercises {params.exercises1 + params.exercises2 + params.exercises3}</p>
+      <p>Number of exercises {parts[0].exercises+parts[1].exercises+parts[2].exercises}</p>
     </div>
   )
 }
@@ -56,29 +43,27 @@ const Total = (params) => {
 
 const App = () => {
   const course = 'Half Stack application development'
-  const part1 = {
-    name: 'Fundamentals of React',
-    exercises: 10
-  }
-  const part2 = {
-    name: 'Using props to pass data',
-    exercises: 7
-  }
-  const part3 = {
-    name: 'State of a component',
-    exercises: 14
-  }
+  const parts = [
+    {
+      name: 'Fundamentals of React',
+      exercises: 10
+    },
+    {
+      name: 'Using props to pass data',
+      exercises: 7
+    },
+    {
+      name: 'State of a component',
+      exercises: 14
+    }
+  ]
+  console.log(parts[0].name)
 
   return (
     <div>
       <Header content={course} />
-      <Content  name1={part1.name} exercises1={part1.exercises} 
-                name2={part2.name} exercises2={part2.exercises} 
-                name3={part3.name} exercises3={part3.exercises} />
-      <ContentTest {...part1}/>
-      <ContentTest {...part2}/>
-      <ContentTest {...part3}/>
-      <Total exercises1={part1.exercises} exercises2={part2.exercises} exercises3={part3.exercises} />
+      <Content parts={parts} />
+      <Total parts={parts} />
     </div>
   )
 }
