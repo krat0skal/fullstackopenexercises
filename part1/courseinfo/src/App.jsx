@@ -16,12 +16,31 @@ const Part = (params) => {
   )
 }
 
+const PartTest = (params) => {
+  console.log(params)
+  return (
+    <div>
+      <p>
+        {params.name} {params.exercises}
+      </p>
+    </div>
+  )
+}
+
 const Content = (params) => {
   return (
     <div>
       <Part name={params.name1} exercises={params.exercises1}/>
       <Part name={params.name2} exercises={params.exercises2}/>
       <Part name={params.name3} exercises={params.exercises3}/>
+    </div>
+  )
+}
+
+const ContentTest = (params) => {
+  return (
+    <div>
+      <PartTest {...params}/>
     </div>
   )
 }
@@ -56,6 +75,9 @@ const App = () => {
       <Content  name1={part1.name} exercises1={part1.exercises} 
                 name2={part2.name} exercises2={part2.exercises} 
                 name3={part3.name} exercises3={part3.exercises} />
+      <ContentTest {...part1}/>
+      <ContentTest {...part2}/>
+      <ContentTest {...part3}/>
       <Total exercises1={part1.exercises} exercises2={part2.exercises} exercises3={part3.exercises} />
     </div>
   )
