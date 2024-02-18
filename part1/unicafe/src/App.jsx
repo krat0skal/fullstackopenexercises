@@ -25,13 +25,23 @@ const Button = (props) => {
 }
 
 const Part = (params) => {
-  return (
-    <div>
-      <p>
-        {params.score} {params.amount}
-      </p>
-    </div>
-  )
+  if (params.score == 'positive'){
+    return (
+      <div>
+        <p>
+          {params.score} {params.amount} %
+        </p>
+      </div>
+    )
+  } else{
+    return (
+      <div>
+        <p>
+          {params.score} {params.amount}
+        </p>
+      </div>
+    )
+  }
 }
 
 const App = () => {
@@ -50,6 +60,9 @@ const App = () => {
       <Part score='good' amount={good}/>
       <Part score='neutral' amount={neutral}/>
       <Part score='bad' amount={bad}/>
+      <Part score='all' amount={good+neutral+bad} />
+      <Part score='average' amount={(good-bad)/(good+neutral+bad)} />
+      <Part score='positive' amount={(good*100)/(good+neutral+bad)} />
     </div>
   )
 }
