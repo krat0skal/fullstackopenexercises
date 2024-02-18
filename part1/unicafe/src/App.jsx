@@ -24,6 +24,16 @@ const Button = (props) => {
   )
 }
 
+const Part = (params) => {
+  return (
+    <div>
+      <p>
+        {params.score} {params.amount}
+      </p>
+    </div>
+  )
+}
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
@@ -37,9 +47,9 @@ const App = () => {
       <Button text='neutral' handleClick={() => setNeutral(neutral+1)}/>
       <Button text='bad' handleClick={() => setBad(bad+1)}/>
       <Footer />
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
+      <Part score='good' amount={good}/>
+      <Part score='neutral' amount={neutral}/>
+      <Part score='bad' amount={bad}/>
     </div>
   )
 }
