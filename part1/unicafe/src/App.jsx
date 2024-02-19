@@ -27,19 +27,29 @@ const Button = (props) => {
 const StatisticLine = (params) => {
   if (params.text == 'positive'){
     return (
-      <div>
-        <p>
-          {params.text} {params.value} %
-        </p>
-      </div>
+      <tbody>
+        <tr>
+          <td>
+            {params.text}
+          </td>
+          <td>
+            {params.value} %
+          </td>
+        </tr>
+    </tbody>
     )
   } else{
     return (
-      <div>
-        <p>
-          {params.text} {params.value}
-        </p>
-      </div>
+      <tbody>
+        <tr>
+          <td>
+            {params.text}
+          </td>
+          <td>
+            {params.value}
+          </td>
+        </tr>
+      </tbody>
     )
   }
 }
@@ -54,12 +64,14 @@ const Statistics = ({props}) =>{
   } else {
     return(
       <div>
-        <StatisticLine text={props[0].name} value={props[0].value}/>
-        <StatisticLine text={props[1].name} value={props[1].value}/>
-        <StatisticLine text={props[2].name} value={props[2].value}/>
-        <StatisticLine text={props[3].name} value={props[3].value}/>
-        <StatisticLine text={props[4].name} value={props[4].value}/>
-        <StatisticLine text={props[5].name} value={props[5].value}/>
+        <table>
+          <StatisticLine text={props[0].name} value={props[0].value}/>
+          <StatisticLine text={props[1].name} value={props[1].value}/>
+          <StatisticLine text={props[2].name} value={props[2].value}/>
+          <StatisticLine text={props[3].name} value={props[3].value}/>
+          <StatisticLine text={props[4].name} value={props[4].value}/>
+          <StatisticLine text={props[5].name} value={props[5].value}/>
+        </table>
       </div>
     )
   }
