@@ -44,12 +44,50 @@ const Part = (params) => {
   }
 }
 
+const Statistics = ({props}) =>{
+  return(
+    <div>
+      <Part score={props[0].name} amount={props[0].value}/>
+      <Part score={props[1].name} amount={props[1].value}/>
+      <Part score={props[2].name} amount={props[2].value}/>
+      <Part score={props[3].name} amount={props[3].value}/>
+      <Part score={props[4].name} amount={props[4].value}/>
+      <Part score={props[5].name} amount={props[5].value}/>
+    </div>
+  )
+}
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
-  console.log('Value of good is '+good)
+  const statsParams = [
+  {
+    name: 'good',
+    value: good
+  },
+  {
+    name: 'neutral',
+    value: neutral
+  },
+  {
+    name: 'bad',
+    value: bad
+  },
+  {
+    name: 'all',
+    value: good+neutral+bad
+  },
+  {
+    name: 'average',
+    value: (good-bad)/(good+neutral+bad)
+  },
+  {
+    name: 'positive',
+    value: (good*100)/(good+neutral+bad)
+  }
+]
   return (
     <div>
       <Header />
@@ -57,12 +95,7 @@ const App = () => {
       <Button text='neutral' handleClick={() => setNeutral(neutral+1)}/>
       <Button text='bad' handleClick={() => setBad(bad+1)}/>
       <Footer />
-      <Part score='good' amount={good}/>
-      <Part score='neutral' amount={neutral}/>
-      <Part score='bad' amount={bad}/>
-      <Part score='all' amount={good+neutral+bad} />
-      <Part score='average' amount={(good-bad)/(good+neutral+bad)} />
-      <Part score='positive' amount={(good*100)/(good+neutral+bad)} />
+      <Statistics props={statsParams} />
     </div>
   )
 }
