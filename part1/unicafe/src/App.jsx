@@ -24,12 +24,12 @@ const Button = (props) => {
   )
 }
 
-const Part = (params) => {
-  if (params.score == 'positive'){
+const StatisticLine = (params) => {
+  if (params.text == 'positive'){
     return (
       <div>
         <p>
-          {params.score} {params.amount} %
+          {params.text} {params.value} %
         </p>
       </div>
     )
@@ -37,7 +37,7 @@ const Part = (params) => {
     return (
       <div>
         <p>
-          {params.score} {params.amount}
+          {params.text} {params.value}
         </p>
       </div>
     )
@@ -54,12 +54,12 @@ const Statistics = ({props}) =>{
   } else {
     return(
       <div>
-        <Part score={props[0].name} amount={props[0].value}/>
-        <Part score={props[1].name} amount={props[1].value}/>
-        <Part score={props[2].name} amount={props[2].value}/>
-        <Part score={props[3].name} amount={props[3].value}/>
-        <Part score={props[4].name} amount={props[4].value}/>
-        <Part score={props[5].name} amount={props[5].value}/>
+        <StatisticLine text={props[0].name} value={props[0].value}/>
+        <StatisticLine text={props[1].name} value={props[1].value}/>
+        <StatisticLine text={props[2].name} value={props[2].value}/>
+        <StatisticLine text={props[3].name} value={props[3].value}/>
+        <StatisticLine text={props[4].name} value={props[4].value}/>
+        <StatisticLine text={props[5].name} value={props[5].value}/>
       </div>
     )
   }
