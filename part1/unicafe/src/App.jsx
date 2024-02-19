@@ -45,16 +45,24 @@ const Part = (params) => {
 }
 
 const Statistics = ({props}) =>{
-  return(
-    <div>
-      <Part score={props[0].name} amount={props[0].value}/>
-      <Part score={props[1].name} amount={props[1].value}/>
-      <Part score={props[2].name} amount={props[2].value}/>
-      <Part score={props[3].name} amount={props[3].value}/>
-      <Part score={props[4].name} amount={props[4].value}/>
-      <Part score={props[5].name} amount={props[5].value}/>
-    </div>
-  )
+  if (props[3].value == 0){
+    return(
+      <div>
+        No feedback given
+      </div>
+    )
+  } else {
+    return(
+      <div>
+        <Part score={props[0].name} amount={props[0].value}/>
+        <Part score={props[1].name} amount={props[1].value}/>
+        <Part score={props[2].name} amount={props[2].value}/>
+        <Part score={props[3].name} amount={props[3].value}/>
+        <Part score={props[4].name} amount={props[4].value}/>
+        <Part score={props[5].name} amount={props[5].value}/>
+      </div>
+    )
+  }
 }
 
 const App = () => {
