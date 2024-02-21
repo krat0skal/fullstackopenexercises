@@ -7,6 +7,20 @@ const Button = (props) => {
     </button>
   )
 }
+const Header =() => {
+  return(
+    <h1>
+      Anecdote of the Day
+    </h1>
+  )
+}
+const Footer =() => {
+  return(
+    <h1>
+      Anecdote with most votes
+    </h1>
+  )
+}
 
 const App = () => {
   const anecdotes = [
@@ -36,9 +50,12 @@ const App = () => {
     pointsCopy[selected] += 1 
     setPoints(pointsCopy)
   }
+  const indexOfMaxValue = points.indexOf(Math.max(...points));
+  console.log('indexOfMaxValue is ',indexOfMaxValue)
  
   return (
     <div>
+      <Header />
       {anecdotes[selected]}
       <div>
         has {points[selected]} votes
@@ -51,6 +68,8 @@ const App = () => {
           next Anecdote
         </button>
       </div>
+      <Footer />
+      {anecdotes[indexOfMaxValue]}
     </div>
   )
 }
