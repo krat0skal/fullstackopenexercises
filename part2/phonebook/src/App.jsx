@@ -3,14 +3,24 @@ const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas' }
   ])
+
+  const checkDuplicate =() => {
+
+  }
   
   const addPerson = (event) => {
     event.preventDefault()
     const newPerson ={ name: newName }
-    setPersons(persons.concat(newPerson))
-    setNewName('')
-    console.log('New Name :',newName)
-    console.log('Person array:',persons)
+    const boolArr = persons.map(person => JSON.stringify(person) === JSON.stringify(newPerson))
+    console.log('boolarr is',boolArr)
+    if(boolArr.includes(true)){
+      alert(`${newName} is already added to phonebook`)
+    } else{
+      setPersons(persons.concat(newPerson))
+      setNewName('')
+      console.log('New Name :',newName)
+      console.log('Person array:',persons)
+    }
   }
   const [newName, setNewName] = useState('')
 
