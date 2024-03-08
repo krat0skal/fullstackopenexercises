@@ -1,17 +1,17 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', phone: '903-350-610' },
-    { name: 'Travis Scott', phone: '902-103-500' },
-    { name: 'Kendrick Lamra', phone: 'DNA-1-FEAR' },
-    { name: 'Asap Rocky', phone: 'RIH-1-RZA' },
-    { name: 'Kanye West', phone: 'PHN-PT-2' }
-  ])
-
+  const [persons, setPersons] = useState([])
+  useEffect(() => {
+    axios.get('http://localhost:3001/persons').then(response => {
+      console.log(response.data)
+      setPersons(response.data)
+    })
+  }, [])
   const [newName, setNewName] = useState('')
 
   const handleNameChange = (event) => {
@@ -59,18 +59,18 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter 
-        filterName={filterName} 
+      <Filter
+        filterName={filterName}
         handlefilterNameChange={handlefilterNameChange} />
       <h3>add a new</h3>
-      <PersonForm 
-        addPerson={addPerson} 
-        newName={newName} 
-        newPhone={newPhone} 
-        handleNameChange={handleNameChange} 
-        handlePhoneChange={handlePhoneChange}/>
+      <PersonForm
+        addPerson={addPerson}
+        newName={newName}
+        newPhone={newPhone}
+        handleNameChange={handleNameChange}
+        handlePhoneChange={handlePhoneChange} />
       <h3>Numbers</h3>
-      <Persons 
+      <Persons
         dspPersons={dspPersons} />
     </div>
   )
