@@ -3,13 +3,15 @@ import axios from 'axios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import bookService from './services/book'
 
 const App = () => {
   const [persons, setPersons] = useState([])
+
   useEffect(() => {
-    axios.get('http://localhost:3001/persons').then(response => {
-      console.log(response.data)
-      setPersons(response.data)
+    bookService.getAll().then(initialBook => {
+      console.log(initialBook)
+      setPersons(initialBook)
     })
   }, [])
   const [newName, setNewName] = useState('')
@@ -50,9 +52,12 @@ const App = () => {
     } else if (boolArr.includes(true)) {
       alert(`${newName} is already added to phonebook`)
     } else {
-      setPersons(persons.concat(newPerson))
-      setNewName('')
-      setNewPhone('')
+      bookService.create(newPerson).then(returnedPerson => {
+        console.log(returnedPerson)
+        setPersons(persons.concat(returnedPerson))
+        setNewName('')
+        setNewPhone('')
+      })
     }
   }
 
