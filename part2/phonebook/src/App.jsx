@@ -6,6 +6,17 @@ import Persons from './components/Persons'
 import bookService from './services/book'
 
 const App = () => {
+
+  const removePerson = (id,name) => {
+    if (window.confirm(`Delete ${name}?`)){
+      console.log(`Deleting person ${id}`)
+      bookService.remove(id).then(deleteResponse => {
+        console.log(deleteResponse)
+        setPersons(persons.filter(person => person.id !== deleteResponse.id))
+      })
+    }
+  }
+
   const [persons, setPersons] = useState([])
 
   useEffect(() => {
@@ -75,8 +86,13 @@ const App = () => {
         handleNameChange={handleNameChange}
         handlePhoneChange={handlePhoneChange} />
       <h3>Numbers</h3>
-      <Persons
-        dspPersons={dspPersons} />
+        {dspPersons.map(person =>
+        <Persons  
+          key={person.id}
+          person={person}
+          removePerson={() => removePerson(person.id, person.name)}
+          />
+        )}
     </div>
   )
 }

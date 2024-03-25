@@ -1,7 +1,10 @@
-const Persons = ({ dspPersons }) => {
+const Persons = ({ person, removePerson }) => {
     return (
         <div>
-            {dspPersons.map(person => <div key={person.name}>{person.name} {person.phone}</div>)}
+            {person.name} {person.phone}
+            <button onClick={removePerson}>
+                Delete
+            </button>
         </div>
     )
 }
