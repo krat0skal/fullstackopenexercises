@@ -55,13 +55,20 @@ const App = () => {
     event.preventDefault()
     const newPerson = { name: newName, phone: newPhone }
     const boolArr = persons.map(person => JSON.stringify(person.name) === JSON.stringify(newPerson.name))
+    const existingId = persons.filter(person => JSON.stringify(person.name) === JSON.stringify(newPerson.name) ? person.id : '')[0].id
     console.log('boolarr is', boolArr)
+    console.log('existing id is', existingId)
     if (newName === '') {
       alert(`Name cannot be empty`)
     } else if (newPhone === '') {
       alert(`Phone cannot be empty`)
     } else if (boolArr.includes(true)) {
-      alert(`${newName} is already added to phonebook`)
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
+        bookService.update(existingId,newPerson).then(updateResponse =>{
+          console.log(updateResponse)
+          setPersons(persons.map(person => person.id !== existingId ? person : updateResponse))
+        })
+      }
     } else {
       bookService.create(newPerson).then(returnedPerson => {
         console.log(returnedPerson)
