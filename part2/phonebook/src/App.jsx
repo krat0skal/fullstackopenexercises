@@ -12,6 +12,7 @@ const App = () => {
   const [newPhone, setNewPhone] = useState('')
   const [filterName, setfilterName] = useState('')
   const [message, setMessage] = useState(null)
+  const [errorInd, seterrorInd] = useState(0)
   const dspPersons = filterName === ''
     ? persons
     : persons.filter(person => person.name.toLowerCase().includes(filterName.toLowerCase()))
@@ -51,10 +52,20 @@ const App = () => {
         bookService.update(existingId, newPerson).then(updateResponse => {
           console.log(updateResponse)
           setPersons(persons.map(person => person.id !== existingId ? person : updateResponse))
+          seterrorInd(0)
           setMessage('Phone Updated Successfully')
           setTimeout(() => {
             setMessage(null)
           }, 5000)
+        }).catch(error => {
+          seterrorInd(1)
+          setMessage(
+            `Person '${newPerson.name}' was already removed from server`
+          )
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+          setPersons(persons.filter(person => person.id !== id))
         })
       }
     } else {
@@ -63,6 +74,7 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewPhone('')
+        seterrorInd(0)
         setMessage('Person Added Successfully')
         setTimeout(() => {
           setMessage(null)
@@ -77,10 +89,20 @@ const App = () => {
       bookService.remove(id).then(deleteResponse => {
         console.log(deleteResponse)
         setPersons(persons.filter(person => person.id !== deleteResponse.id))
+        seterrorInd(0)
         setMessage('Person Removed Successfully')
         setTimeout(() => {
           setMessage(null)
         }, 5000)
+      }).catch(error => {
+        seterrorInd(1)
+        setMessage(
+          `Person '${name}' was already removed from server`
+        )
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
+        setPersons(persons.filter(person => person.id !== id))
       })
     }
   }
@@ -88,7 +110,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={message} />
+      <Notification message={message} errorInd={errorInd} />
       <Filter
         filterName={filterName}
         handlefilterNameChange={handlefilterNameChange} />

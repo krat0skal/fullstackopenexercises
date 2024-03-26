@@ -1,4 +1,5 @@
-const Notification = ({ message }) => {
+const Notification = ({ message, errorInd }) => {
+    console.log('Error in d is '+errorInd)
     const successStyle = {
         color: 'green',
         background: 'lightgrey',
@@ -21,11 +22,19 @@ const Notification = ({ message }) => {
     if (message === null) {
         return null
     }
-    return (
-        <div style={successStyle}>
-            {message}
-        </div>
-    )
+    if (errorInd ==0){
+        return (
+            <div style={successStyle}>
+                {message}
+            </div>
+        ) 
+    } else {
+        return (
+            <div style={errStyle}>
+                {message}
+            </div>
+        )
+    }
 }
 
 export default Notification
