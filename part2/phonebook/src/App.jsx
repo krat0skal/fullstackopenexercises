@@ -4,20 +4,17 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import bookService from './services/book'
+import Notification from './components/Notification'
 
 const App = () => {
-
-  const removePerson = (id,name) => {
-    if (window.confirm(`Delete ${name}?`)){
-      console.log(`Deleting person ${id}`)
-      bookService.remove(id).then(deleteResponse => {
-        console.log(deleteResponse)
-        setPersons(persons.filter(person => person.id !== deleteResponse.id))
-      })
-    }
-  }
-
   const [persons, setPersons] = useState([])
+  const [newName, setNewName] = useState('')
+  const [newPhone, setNewPhone] = useState('')
+  const [filterName, setfilterName] = useState('')
+  const [message, setMessage] = useState(null)
+  const dspPersons = filterName === ''
+    ? persons
+    : persons.filter(person => person.name.toLowerCase().includes(filterName.toLowerCase()))
 
   useEffect(() => {
     bookService.getAll().then(initialBook => {
@@ -25,48 +22,39 @@ const App = () => {
       setPersons(initialBook)
     })
   }, [])
-  const [newName, setNewName] = useState('')
-
   const handleNameChange = (event) => {
     console.log(event.target.value)
     setNewName(event.target.value)
   }
-
-  const [newPhone, setNewPhone] = useState('')
-
   const handlePhoneChange = (event) => {
     console.log(event.target.value)
     setNewPhone(event.target.value)
   }
-
-  const [filterName, setfilterName] = useState('')
-
   const handlefilterNameChange = (event) => {
     console.log(event.target.value)
     setfilterName(event.target.value)
   }
-
-  const dspPersons = filterName === ''
-    ? persons
-    : persons.filter(person => person.name.toLowerCase().includes(filterName.toLowerCase()))
-
   const addPerson = (event) => {
     // console.log('New Name :', newName)
     event.preventDefault()
     const newPerson = { name: newName, phone: newPhone }
     const boolArr = persons.map(person => JSON.stringify(person.name) === JSON.stringify(newPerson.name))
-    const existingId = persons.filter(person => JSON.stringify(person.name) === JSON.stringify(newPerson.name) ? person.id : '')[0].id
     console.log('boolarr is', boolArr)
-    console.log('existing id is', existingId)
     if (newName === '') {
       alert(`Name cannot be empty`)
     } else if (newPhone === '') {
       alert(`Phone cannot be empty`)
     } else if (boolArr.includes(true)) {
-      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)){
-        bookService.update(existingId,newPerson).then(updateResponse =>{
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        const existingId = persons.filter(person => JSON.stringify(person.name) === JSON.stringify(newPerson.name) ? person.id : '')[0].id
+        console.log('existing id is', existingId)
+        bookService.update(existingId, newPerson).then(updateResponse => {
           console.log(updateResponse)
           setPersons(persons.map(person => person.id !== existingId ? person : updateResponse))
+          setMessage('Phone Updated Successfully')
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
         })
       }
     } else {
@@ -75,6 +63,24 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNewPhone('')
+        setMessage('Person Added Successfully')
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
+      })
+    }
+  }
+
+  const removePerson = (id, name) => {
+    if (window.confirm(`Delete ${name}?`)) {
+      console.log(`Deleting person ${id}`)
+      bookService.remove(id).then(deleteResponse => {
+        console.log(deleteResponse)
+        setPersons(persons.filter(person => person.id !== deleteResponse.id))
+        setMessage('Person Removed Successfully')
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
       })
     }
   }
@@ -82,6 +88,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} />
       <Filter
         filterName={filterName}
         handlefilterNameChange={handlefilterNameChange} />
@@ -93,13 +100,13 @@ const App = () => {
         handleNameChange={handleNameChange}
         handlePhoneChange={handlePhoneChange} />
       <h3>Numbers</h3>
-        {dspPersons.map(person =>
-        <Persons  
+      {dspPersons.map(person =>
+        <Persons
           key={person.id}
           person={person}
           removePerson={() => removePerson(person.id, person.name)}
-          />
-        )}
+        />
+      )}
     </div>
   )
 }
