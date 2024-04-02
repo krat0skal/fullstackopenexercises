@@ -1,8 +1,8 @@
 import { useState } from "react"
 import countriesService from "../services/countriesService"
 
-const CountryData = ({ country }) => {
-    if (country) {
+const CountryData = ({ country , renderedInd}) => {
+    if (country && renderedInd == true) {
         var languageList = []
         console.log('in country dta')
         console.log(country)

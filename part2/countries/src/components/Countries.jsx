@@ -11,11 +11,11 @@ const Countries =({countries}) => {
     } else if (countries.length > 1) {
         console.log('Length lesser than 10 calling country component')
         return(countries.map(country => 
-            <Country key={country.name.common} country={country.name.common}/>))
+            <Country key={country.name.common} country={country}/>))
     } else if (countries.length == 1){
         console.log('Only 1 country, time to call api and show data')
         return(
-            <CountryData country={countries}/>
+            <CountryData country={countries} renderedInd={true}/>
         )
     }
 }
