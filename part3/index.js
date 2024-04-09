@@ -4,12 +4,18 @@ install express dependency with npm install express
 install nodemon dev dependency with npm install --save-dev nodemon
 declare dev script in package.json
 to read request.body, please use app.use(express.json())
+
+added morgan by npm install morgan
+new morgan variable declared and used by app for logging api reuests
 */
 
 
 const express = require('express')
+var morgan = require('morgan')
+
 const app = express()
 app.use(express.json())
+app.use(morgan('tiny'))
 let persons = [
     {
         "id": 1,
@@ -97,7 +103,6 @@ app.post('/api/persons', (request, response) => {
             number: request.body.number
         }
         persons = persons.concat(person)
-        console.log(persons)
         response.json(person)
     }
 })
