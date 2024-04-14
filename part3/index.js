@@ -9,12 +9,15 @@ added morgan by npm install morgan
 new morgan variable declared and used by app for logging api reuests uing iny format
 
 create new mprgan token with function which returns request ody when motheod is POST
+
+npm install cors to allow cross origin resource sharing
+use app.use(cors())
 */
 
 
 const express = require('express')
 var morgan = require('morgan')
-
+const cors = require('cors')
 const app = express()
 app.use(express.json())
 morgan.token('body', function getBody(req) {
@@ -26,6 +29,7 @@ morgan.token('body', function getBody(req) {
 })
 // app.use(morgan('tiny'))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+app.use(cors())
 let persons = [
     {
         "id": 1,
