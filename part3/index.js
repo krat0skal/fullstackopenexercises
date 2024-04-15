@@ -16,7 +16,6 @@ use app.use(cors())
 
 
 const express = require('express')
-const filePath = '/README.md'
 var morgan = require('morgan')
 const cors = require('cors')
 const app = express()
@@ -59,7 +58,7 @@ app.get('/api/persons', (request, response) => {
 })
 
 app.get('/readme', (request, response) => {
-    response.sendFile(filePath)
+    response.sendFile('../README.md', {root: __dirname});
 })
 
 app.get('/info', (request, response) => {
