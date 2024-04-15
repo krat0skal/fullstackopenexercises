@@ -57,6 +57,10 @@ app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
 
+app.get('/readme', (request, response) => {
+    response.sendFile('/README.md')
+})
+
 app.get('/info', (request, response) => {
     let currDate = new Date()
     const numOfPerson = persons.length
