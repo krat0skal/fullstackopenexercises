@@ -16,7 +16,7 @@ use app.use(cors())
 
 
 const express = require('express')
-const filePath = '/fullstackOpen_v2/fullstackopenexercises/part3/README.md'
+const filePath = '/README.md'
 var morgan = require('morgan')
 const cors = require('cors')
 const app = express()
