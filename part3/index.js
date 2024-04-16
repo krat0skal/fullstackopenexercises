@@ -16,6 +16,7 @@ use app.use(cors())
 
 
 const express = require('express')
+const path = require('path')
 var morgan = require('morgan')
 const cors = require('cors')
 const app = express()
@@ -53,12 +54,15 @@ let persons = [
     }
 ]
 
+app.get('/', (request, response) => {
+    response.send('<a href = "/readme">README!!</a>');
+})
+
 app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
-
 app.get('/readme', (request, response) => {
-    response.sendFile('../README.md', {root: __dirname});
+    response.sendFile(path.join(__dirname, '/README.md'));
 })
 
 app.get('/info', (request, response) => {
