@@ -125,17 +125,19 @@ app.post('/api/persons', (request, response) => {
         response.status(400).json({
             error: 'Number Not Found'
         })
-    } else if (persons.find(person => person.name === request.body.name)) {
-        response.status(400).json({
-            error: 'Person already exists'
-        })
+    // } else if (persons.find(person => person.name === request.body.name)) {
+    //     response.status(400).json({
+    //         error: 'Person already exists'
+    //     })
     } else {
         const person = {
             id: generateId(),
             name: request.body.name,
             number: request.body.number
         }
-        persons = persons.concat(person)
+        Person.create(person)
+        // persons = persons.concat(person)
+        console.log(`added person ${person.name} with phone number ${person.number}`)
         response.json(person)
     }
 })
