@@ -12,9 +12,14 @@ create new mprgan token with function which returns request ody when motheod is 
 
 npm install cors to allow cross origin resource sharing
 use app.use(cors())
+
+npm install dotenv for mongodb model creation and using it to fetch persons from the db
+create module for persons using url and personschema
+import const Person and use it to fetch data
 */
+require('dotenv').config()
 
-
+const Person = require('./models/person')
 const express = require('express')
 const path = require('path')
 var morgan = require('morgan')
@@ -60,7 +65,13 @@ app.get('/', (request, response) => {
 })
 
 app.get('/api/persons', (request, response) => {
-    response.json(persons)
+    Person.find({}).then(persons => {
+            persons.forEach(person =>{
+                console.log(person)
+            })
+            response.json(persons)
+        }
+    )
 })
 app.get('/readme', (request, response) => {
     response.sendFile(path.join(__dirname, '/README.md'));
