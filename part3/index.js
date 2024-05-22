@@ -24,6 +24,7 @@ const express = require('express')
 const path = require('path')
 var morgan = require('morgan')
 const cors = require('cors')
+const { error } = require('console')
 const app = express()
 app.use(express.json())
 app.use(express.static('dist'))
@@ -37,6 +38,20 @@ morgan.token('body', function getBody(req) {
 // app.use(morgan('tiny'))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 app.use(cors())
+
+const errorHandler = (error, request, response, next) => {
+    console.error(error.message)
+  
+    if (error.name === 'CastError') {
+      return response.status(400).send({ error: 'malformatted id' })
+    } 
+  
+    next(error)
+  }
+  
+  // this has to be the last loaded middleware, also all the routes should be registered before this!
+  app.use(errorHandler)
+
 let persons = [
     {
         "id": 1,
@@ -87,25 +102,30 @@ app.get('/info', (request, response) => {
     // response.json(persons)
 })
 
-app.get('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const person = persons.find(person => person.id === id)
-    if (person) {
-        response.json(person)
-    } else {
-        console.log('No erson found')
-        response.sendStatus(404)
-    }
+app.get('/api/persons/:id', (request, response, next) => {
+    Person.findById(request.params.id)
+    .then(
+        person =>{
+            if(person){
+                response.json(person)
+            } else{
+                response.status(400).end()
+            }
+        }
+    )
+    .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    if (persons.find(person => person.id === id)) {
-        persons = persons.filter(person => person.id !== id)
-        response.sendStatus(204)
-    } else {
-        response.sendStatus(404)
-    }
+    console.log(request.params.id)
+    console.log('Deleting')
+    Person.findByIdAndDelete(request.params.id)
+    .then(
+        resut =>{
+            response.status(400).end()
+        }
+    )
+    .catch(error => next(error))
 })
 
 const generateId = () => {
