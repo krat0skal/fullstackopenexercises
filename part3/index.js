@@ -56,22 +56,22 @@ let persons = [
     {
         "id": 1,
         "name": "Arto Hellas",
-        "number": "040-123456"
+        "phone": "040-123456"
     },
     {
         "id": 2,
         "name": "Ada Lovelace",
-        "number": "39-44-5323523"
+        "phone": "39-44-5323523"
     },
     {
         "id": 3,
         "name": "Dan Abramov",
-        "number": "12-43-234345"
+        "phone": "12-43-234345"
     },
     {
         "id": 4,
         "name": "Mary Poppendieck",
-        "number": "39-23-6423122"
+        "phone": "39-23-6423122"
     }
 ]
 
@@ -141,7 +141,7 @@ app.post('/api/persons', (request, response) => {
         response.status(400).json({
             error: 'Name Not Found'
         })
-    } else if (!request.body.number) {
+    } else if (!request.body.phone) {
         response.status(400).json({
             error: 'Number Not Found'
         })
@@ -153,11 +153,11 @@ app.post('/api/persons', (request, response) => {
         const person = {
             id: generateId(),
             name: request.body.name,
-            number: request.body.number
+            phone: request.body.phone
         }
         Person.create(person)
         // persons = persons.concat(person)
-        console.log(`added person ${person.name} with phone number ${person.number}`)
+        console.log(`added person ${person.name} with phone number ${person.phone}`)
         response.json(person)
     }
 })

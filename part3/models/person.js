@@ -20,7 +20,7 @@ mongoose.connect(url)
 const personSchema = new mongoose.Schema({
     id: Number,
     name: String,
-    number: String
+    phone: String
 })
 
 personSchema.set('toJSON', {
