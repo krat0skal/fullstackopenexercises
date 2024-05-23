@@ -116,7 +116,7 @@ app.get('/api/persons/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response, next) => {
     console.log(request.params.id)
     console.log('Deleting')
     Person.findByIdAndDelete(request.params.id)
@@ -131,6 +131,25 @@ app.delete('/api/persons/:id', (request, response) => {
 const generateId = () => {
     return (Math.floor(Math.random() * 100))
 }
+
+app.put('/api/persons/:id', (request, response, next) => {
+    console.log('id')
+    console.log(request.params.id)
+    console.log('phone')
+    console.log(request.body.phone)
+    Person.findByIdAndUpdate(request.params.id,{phone : request.body.phone})
+    .then(
+        resut =>{
+            const person = {
+                id: request.params.id,
+                name: request.body.name,
+                phone: request.body.phone
+            }
+            response.json(person)
+        }
+    )
+    .catch(error => next(error))
+})
 
 app.post('/api/persons', (request, response) => {
     if (!request.body) {
