@@ -44,7 +44,9 @@ const errorHandler = (error, request, response, next) => {
   
     if (error.name === 'CastError') {
       return response.status(400).send({ error: 'malformatted id' })
-    } 
+    }  else if (error.name === 'ValidationError') {
+        return response.status(400).json({ error: error.message })
+      }
   
     next(error)
   }
@@ -151,7 +153,7 @@ app.put('/api/persons/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
     if (!request.body) {
         response.status(400).json({
             error: 'Body Not Found'
@@ -174,10 +176,14 @@ app.post('/api/persons', (request, response) => {
             name: request.body.name,
             phone: request.body.phone
         }
-        Person.create(person)
+        Person.create(person).then(person=>{
+            console.log(`added person ${person.name} with phone number ${person.phone}`)
+            response.json(person)
+        })
+        .catch(error=>{
+            next(error)
+        })
         // persons = persons.concat(person)
-        console.log(`added person ${person.name} with phone number ${person.phone}`)
-        response.json(person)
     }
 })
 const PORT = process.env.PORT || 3001
