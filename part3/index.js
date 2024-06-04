@@ -16,6 +16,10 @@ use app.use(cors())
 npm install dotenv for mongodb model creation and using it to fetch persons from the db
 create module for persons using url and personschema
 import const Person and use it to fetch data
+
+
+--ex 3.20 custom validator using mongodb
+in app.jsx catch block use rror.response.data.error
 */
 require('dotenv').config()
 
@@ -181,6 +185,7 @@ app.post('/api/persons', (request, response, next) => {
             response.json(person)
         })
         .catch(error=>{
+            response.status(400).json({error : error.message})
             next(error)
         })
         // persons = persons.concat(person)
