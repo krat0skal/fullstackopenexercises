@@ -28,7 +28,6 @@ const express = require('express')
 const path = require('path')
 var morgan = require('morgan')
 const cors = require('cors')
-const { error } = require('console')
 const app = express()
 app.use(express.json())
 app.use(express.static('dist'))
@@ -127,7 +126,7 @@ app.delete('/api/persons/:id', (request, response, next) => {
     console.log('Deleting')
     Person.findByIdAndDelete(request.params.id)
     .then(
-        resut =>{
+        result =>{
             response.status(400).end()
         }
     )
@@ -145,7 +144,7 @@ app.put('/api/persons/:id', (request, response, next) => {
     console.log(request.body.phone)
     Person.findByIdAndUpdate(request.params.id,{phone : request.body.phone})
     .then(
-        resut =>{
+        result =>{
             const person = {
                 id: request.params.id,
                 name: request.body.name,
