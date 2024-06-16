@@ -4,15 +4,16 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const Blog = require('./models/blog')
 const blogsRouter = require('./controllers/blogs')
+const config = require('./utils/config')
 
-const mongoUrl = process.env.MONGODB_URI_PART4
+const mongoUrl = config.MONGODB_URI_PART4
 mongoose.connect(mongoUrl)
 
 app.use(cors())
 app.use(express.json())
 app.use('/api/blogs',blogsRouter)
 
-const PORT = 3003
+const PORT = config.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
