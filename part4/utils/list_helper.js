@@ -1,3 +1,5 @@
+var lodasher = require('lodash');
+
 const dummy = (blogs) => {
     return 1
 }
@@ -29,8 +31,25 @@ const favoriteBlog = (blogs) => {
         return returnObj
     }
 }
+const mostBlogs = (blogs) => {
+    if (blogs.length === 0) {
+        return {
+            author : 'NA',
+            blogs : 'NA'
+        }
+    } else{
+        const countObj = lodasher.countBy(blogs.map(blog => blog.author))
+        const keyscountObjArr = lodasher.keys(countObj)
+        const maxValAuthor = lodasher.maxBy(keyscountObjArr, k=>countObj[k])
+        return {
+            author : maxValAuthor,
+            blogs : countObj[maxValAuthor]
+        }
+    }
+}
 module.exports = {
     dummy,
     totalLikes,
-    favoriteBlog
+    favoriteBlog,
+    mostBlogs
 }

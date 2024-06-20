@@ -150,3 +150,69 @@ describe('Favourite Blog', () => {
         })
     })
 })
+
+describe('Author with mos Blogs', () => {
+    const emptyList = []
+
+    test('when list is empty', () => {
+        const result = listHelper.mostBlogs(emptyList)
+        assert.deepStrictEqual(result, {
+            author : 'NA',
+            blogs : 'NA'
+        })
+    })
+
+    const listWithOneBlog = [
+        {
+            title: 'Go To Statement Considered Harmful',
+            author: 'Edsger W. Dijkstra'
+        }
+    ]
+
+    test('when list has only one blog, it is same author with 1 blog', () => {
+        const result = listHelper.mostBlogs(listWithOneBlog)
+        assert.deepStrictEqual(result, {
+            author: 'Edsger W. Dijkstra',
+            blogs: 1
+        })
+    })
+
+    const listWithManyBlog = [
+        {
+            title: 'Go To Statement Considered Harmful',
+            author: 'Edsger W. Dijkstra'
+        },
+        {
+            title: 'The Bible',
+            author: 'Unknown'
+        },
+        {
+            title: 'Rap 101',
+            author: 'Kendrick Lamar'
+        },
+        {
+            title: 'how to become washed',
+            author: 'Kanye West'
+        },
+        {
+            title: 'how to be cringe',
+            author: 'Eminem'
+        },
+        {
+            title: 'How to be a Good Dad',
+            author: 'Kendrick Lamar'
+        },
+        {
+            title: 'How to be a Hater',
+            author: 'Kendrick Lamar'
+        }
+    ]
+
+    test('when list has many blogs, the author is the one with most blogs', () => {
+        const result = listHelper.mostBlogs(listWithManyBlog)
+        assert.deepStrictEqual(result, {
+            author: 'Kendrick Lamar',
+            blogs: 3
+        })
+    })
+})
