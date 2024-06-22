@@ -216,3 +216,77 @@ describe('Author with mos Blogs', () => {
         })
     })
 })
+
+describe('Author with most likes', () => {
+    const emptyList = []
+
+    test('when list is empty', () => {
+        const result = listHelper.mostLikes(emptyList)
+        assert.deepStrictEqual(result, {
+            author : 'NA',
+            likes : 'NA'
+        })
+    })
+
+    const listWithOneBlog = [
+        {
+            title: 'Go To Statement Considered Harmful',
+            author: 'Edsger W. Dijkstra',
+            likes: 90
+        }
+    ]
+
+    test('when list has only one blog, it is same author with 1 blog', () => {
+        const result = listHelper.mostLikes(listWithOneBlog)
+        assert.deepStrictEqual(result, {
+            author: 'Edsger W. Dijkstra',
+            likes: 90
+        })
+    })
+
+    const listWithManyBlog = [
+        {
+            title: 'Tennis Balls for the wrong sport',
+            author: 'Pusha T',
+            likes: 81
+        },
+        {
+            title: 'Daytona',
+            author: 'Pusha T',
+            likes: 100
+        },
+        {
+            title: 'Rap 101',
+            author: 'Kendrick Lamar',
+            likes: 90
+        },
+        {
+            title: 'how to become washed',
+            author: 'Eminem',
+            likes: 1
+        },
+        {
+            title: 'how to be cringe',
+            author: 'Eminem',
+            likes: 11
+        },
+        {
+            title: 'How to be a Good Dad',
+            author: 'Kendrick Lamar',
+            likes: 100
+        },
+        {
+            title: 'How to be a Hater',
+            author: 'Kendrick Lamar',
+            likes: 1
+        }
+    ]
+
+    test('when list has many blogs, the author is the one with most blogs', () => {
+        const result = listHelper.mostLikes(listWithManyBlog)
+        assert.deepStrictEqual(result, {
+            author: 'Kendrick Lamar',
+            likes: 191
+        })
+    })
+})

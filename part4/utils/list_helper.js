@@ -34,22 +34,46 @@ const favoriteBlog = (blogs) => {
 const mostBlogs = (blogs) => {
     if (blogs.length === 0) {
         return {
-            author : 'NA',
-            blogs : 'NA'
+            author: 'NA',
+            blogs: 'NA'
         }
-    } else{
+    } else {
         const countObj = lodasher.countBy(blogs.map(blog => blog.author))
         const keyscountObjArr = lodasher.keys(countObj)
-        const maxValAuthor = lodasher.maxBy(keyscountObjArr, k=>countObj[k])
+        const maxValAuthor = lodasher.maxBy(keyscountObjArr, k => countObj[k])
         return {
-            author : maxValAuthor,
-            blogs : countObj[maxValAuthor]
+            author: maxValAuthor,
+            blogs: countObj[maxValAuthor]
         }
+    }
+}
+
+const mostLikes = (blogs) => {
+    if (blogs.length === 0) {
+        return {
+            author: 'NA',
+            likes: 'NA'
+        }
+    } else {
+        const groupedAuthors = lodasher.groupBy(blogs, blog => blog.author)
+        const authors = lodasher.keys(groupedAuthors)
+        const reducer = (sum, item) => {
+            return sum + item
+        }
+        const authorLikes = authors.map(author => (
+            {
+                author: author,
+                likes: groupedAuthors[author].map(g => g.likes).reduce(reducer, 0)
+            }
+        ))
+
+        return lodasher.maxBy(authorLikes, a => a.likes)
     }
 }
 module.exports = {
     dummy,
     totalLikes,
     favoriteBlog,
-    mostBlogs
+    mostBlogs,
+    mostLikes
 }
