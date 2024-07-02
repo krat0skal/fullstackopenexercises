@@ -1,0 +1,10 @@
+firstly we install npm install cross-env
+modify package.json scripts to modify process.NODE_ENV accordingly based on the script being used(corss-env NODE_ENV=)
+modify config.js to use test URL when process.node_env == 'test'
+npm install --save-dev supertest
+created a new test file to test api/blogs
+in blogs_api.test.js we test notes are returned as json and numbe of notes using async await functions
+
+we define a helper file to declare initial notes and export it
+we define a beforeEach method to be called before each test. It deletes all blogs, and inserts 2 new blogs
+
