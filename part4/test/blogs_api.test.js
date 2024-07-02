@@ -73,6 +73,52 @@ test('Note without likes is posted with 0 likes', async () => {
   assert.strictEqual(blogsAfterPost.length,helper.initialBlogs.length+1)
   assert(likes.includes(0))
 })
+
+test('Note without title returns 400', async () => {
+  const newBlogs =[
+    {
+      author : 'There is no title',
+      url : 'NA',
+      likes : 0
+    },
+    {
+      title : 'Book witout url',
+      author : 'There is no title',
+      likes : 0
+    },
+    {
+      title : '',
+      author : 'Title is null',
+      url : 'NA',
+      likes : 0
+    },
+    {
+      title : 'URL is null',
+      author : 'There is no title',
+      url : '',
+      likes : 0
+    },
+    {
+      title : 'URL is null',
+      author : 'There is no title',
+      url : null,
+      likes : 0
+    },
+    {
+      title : null,
+      author : 'Title is null',
+      url : 'NA',
+      likes : 0
+    }
+  ]
+  for (let blog of newBlogs) {
+    await api
+    .post('/api/blogs')
+    .send(blog)
+    .expect(400)
+  }
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
