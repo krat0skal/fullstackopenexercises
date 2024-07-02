@@ -54,6 +54,25 @@ test('Note is succesfuly posted', async () => {
   assert.strictEqual(blogsAfterPost.length,helper.initialBlogs.length+1)
   assert(titleArr.includes('There is no Book'))
 })
+
+test('Note without likes is posted with 0 likes', async () => {
+  const newBlog = {
+    title : 'Book witout likes key',
+    author : 'Author without key lol',
+    url : 'NA'
+  }
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+  const blogsAfterPost = await helper.blogsInDb()
+  const likes = blogsAfterPost.map(b => b.likes)
+  console.log(blogsAfterPost)
+  console.log(likes)
+  assert.strictEqual(blogsAfterPost.length,helper.initialBlogs.length+1)
+  assert(likes.includes(0))
+})
 after(async () => {
   await mongoose.connection.close()
 })
